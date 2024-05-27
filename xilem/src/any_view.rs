@@ -21,8 +21,10 @@ use crate::{Pod, ViewCtx};
 /// Note that `Option` can also be used for conditionally displaying
 /// views in a [`ViewSequence`](crate::ViewSequence).
 // TODO: Mention `Either` when we have implemented that?
-pub type AnyWidgetView<State, Action = ()> =
+pub type BoxedAnyWidgetView<State, Action = ()> =
     Box<dyn AnyView<State, Action, ViewCtx, Pod<DynWidget>> + Send + Sync>;
+pub type ArcAnyWidgetView<State, Action = ()> =
+    std::sync::Arc<dyn AnyView<State, Action, ViewCtx, Pod<DynWidget>> + Send + Sync>;
 
 impl<W: Widget> SuperElement<Pod<W>> for Pod<Box<dyn Widget>> {
     fn upcast(child: Pod<W>) -> Self {

@@ -6,7 +6,7 @@
 
 use xilem::{
     view::{button, checkbox, flex, label, prose, textbox},
-    AnyWidgetView, Axis, Color, EventLoop, EventLoopBuilder, TextAlignment, WidgetView, Xilem,
+    Axis, BoxedAnyWidgetView, Color, EventLoop, EventLoopBuilder, TextAlignment, WidgetView, Xilem,
 };
 const LOREM: &str = r"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus mi sed euismod euismod. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam placerat efficitur tellus at semper. Morbi ac risus magna. Donec ut cursus ex. Etiam quis posuere tellus. Mauris posuere dui et turpis mollis, vitae luctus tellus consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu facilisis nisl.
 
@@ -59,7 +59,7 @@ fn app_logic(data: &mut AppData) -> impl WidgetView<AppData> {
 }
 
 fn toggleable(data: &mut AppData) -> impl WidgetView<AppData> {
-    let inner_view: AnyWidgetView<_, _> = if data.active {
+    let inner_view: BoxedAnyWidgetView<_> = if data.active {
         Box::new(
             flex((
                 button("Deactivate", |data: &mut AppData| {
