@@ -90,5 +90,5 @@ fn main() {
 
     let app = Xilem::new(data, app_logic);
     app.run_windowed(EventLoop::with_user_event(), "First Example".into())
-       .unwrap();
+        .unwrap();
 }
