@@ -13,7 +13,7 @@ use masonry::{
 pub use masonry::{widget::Axis, Color, TextAlignment};
 
 mod any_view;
-pub use any_view::{ArcAnyWidgetView, BoxedAnyWidgetView};
+pub use any_view::AnyWidgetView;
 mod driver;
 pub mod view;
 

@@ -198,6 +198,3 @@ impl<State, Action, Context: ViewPathTracker, V: View<State, Action, Context> + 
             .message(view_state, id_path, message, app_state)
     }
 }
-
-mod memoize;
-pub use memoize::{memoize, Memoize};

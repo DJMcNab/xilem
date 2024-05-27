@@ -3,7 +3,7 @@
 
 use std::sync::Arc;
 use xilem::view::{button, flex, memoize};
-use xilem::{ArcAnyWidgetView, EventLoop, WidgetView, Xilem};
+use xilem::{AnyWidgetView, EventLoop, WidgetView, Xilem};
 
 // There are currently two ways to do memoization
 
@@ -16,11 +16,11 @@ struct AppState {
 struct MemoizedArcView<D> {
     data: D,
     // When TAITs are stabilized this can be a non-erased concrete type
-    view: Option<ArcAnyWidgetView<AppState>>,
+    view: Option<Arc<AnyWidgetView<AppState>>>,
 }
 
 // The following is an example to do memoization with an Arc
-fn increase_button(state: &mut AppState) -> ArcAnyWidgetView<AppState> {
+fn increase_button(state: &mut AppState) -> Arc<AnyWidgetView<AppState>> {
     if state.count != state.increase_button.data || state.increase_button.view.is_none() {
         let view = Arc::new(button(
             format!("current count is {}", state.count),
