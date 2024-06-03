@@ -3,8 +3,8 @@
 
 //! Support for sequences of views with a shared element type.
 
-use alloc::vec::Drain;
-use alloc::vec::Vec;
+use alloc::vec::{Drain, Vec};
+use core::marker::PhantomData;
 
 use crate::{DynMessage, MessageResult, SuperElement, View, ViewElement, ViewId, ViewPathTracker};
 
@@ -125,13 +125,13 @@ pub trait ElementSplice<Element: ViewElement> {
 
 /// Marker type to workaround trait ambiguity.
 #[doc(hidden)]
-pub struct WasAView;
+pub struct WasAView<T>(PhantomData<T>);
 
-impl<State, Action, Context, V, Element> ViewSequence<State, Action, Context, Element, WasAView>
-    for V
+impl<State, Action, Context, V, Marker, Element>
+    ViewSequence<State, Action, Context, Element, WasAView<Marker>> for V
 where
     Context: ViewPathTracker,
-    V: View<State, Action, Context>,
+    V: View<State, Action, Context, Marker>,
     Element: SuperElement<V::Element>,
     V::Element: ViewElement,
 {

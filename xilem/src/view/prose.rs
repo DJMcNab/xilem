@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use masonry::{text2::TextBrush, widget, ArcStr};
-use xilem_core::Mut;
+use xilem_core::{Mut, OrphanView};
 
 use crate::{Color, MessageResult, Pod, TextAlignment, View, ViewCtx, ViewId};
 
@@ -87,5 +87,21 @@ impl<State, Action> View<State, Action, ViewCtx> for Prose {
     ) -> crate::MessageResult<Action> {
         tracing::error!("Message arrived in Prose::message, but Prose doesn't consume any messages, this is a bug");
         MessageResult::Stale(message)
+    }
+}
+
+impl<State, Action> OrphanView<&'static str, State, Action> for ViewCtx {
+    type V = Prose;
+
+    fn as_view(value: &&'static str) -> Self::V {
+        prose(*value)
+    }
+}
+
+impl<State, Action> OrphanView<String, State, Action> for ViewCtx {
+    type V = Prose;
+
+    fn as_view(value: &String) -> Self::V {
+        prose(value.as_str())
     }
 }

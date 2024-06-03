@@ -3,3 +3,6 @@
 
 mod memoize;
 pub use memoize::{memoize, Memoize};
+
+mod orphan;
+pub use orphan::{OrphanImpl, OrphanView};

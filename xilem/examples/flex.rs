@@ -4,7 +4,7 @@
 use masonry::widget::{CrossAxisAlignment, MainAxisAlignment};
 use winit::error::EventLoopError;
 use xilem::{
-    view::{button, flex, label},
+    view::{button, flex},
     EventLoop, WidgetView, Xilem,
 };
 
@@ -13,7 +13,7 @@ fn app_logic(data: &mut i32) -> impl WidgetView<i32> {
         button("-", |data| {
             *data -= 1;
         }),
-        label(format!("count: {}", data)),
+        format!("count: {}", data),
         button("+", |data| {
             *data += 1;
         }),

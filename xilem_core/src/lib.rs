@@ -31,7 +31,7 @@ mod view;
 pub use view::{View, ViewId, ViewPathTracker};
 
 mod views;
-pub use views::{memoize, Memoize};
+pub use views::{memoize, Memoize, OrphanImpl, OrphanView};
 
 mod message;
 pub use message::{DynMessage, Message, MessageResult};

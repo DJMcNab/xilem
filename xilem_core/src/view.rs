@@ -9,6 +9,8 @@ use alloc::{boxed::Box, sync::Arc};
 
 use crate::{message::MessageResult, DynMessage, Mut, ViewElement};
 
+pub struct ManualImpl;
+
 /// A lightweight, short-lived representation of the state of a retained
 /// structure, usually a user interface node.
 ///
@@ -36,7 +38,7 @@ use crate::{message::MessageResult, DynMessage, Mut, ViewElement};
 /// allocator to be available.
 /// It is possible (hopefully in a backwards compatible way) to add a generic
 /// defaulted parameter for the message type in future.
-pub trait View<State, Action, Context: ViewPathTracker>: 'static {
+pub trait View<State, Action, Context: ViewPathTracker, Marker = ManualImpl>: 'static {
     /// The element type which this view operates on.
     type Element: ViewElement;
     /// State that is used over the lifetime of the retained representation of the view.
