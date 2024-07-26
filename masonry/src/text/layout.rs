@@ -70,8 +70,6 @@ pub enum TextBrush {
     },
 }
 
-impl BrushTrait for TextBrush {}
-
 impl From<peniko::Brush> for TextBrush {
     fn from(value: peniko::Brush) -> Self {
         Self::Normal(value)
