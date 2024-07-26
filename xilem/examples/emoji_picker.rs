@@ -10,8 +10,8 @@
 
 use xilem::{
     core::map_state,
-    view::{button, flex, label, prose, sized_box},
-    AnyWidgetView, Axis, Color, EventLoop, EventLoopBuilder, WidgetView, Xilem,
+    view::{button, flex, label, prose, sized_box, Axis},
+    AnyWidgetView, Color, EventLoop, EventLoopBuilder, WidgetView, Xilem,
 };
 
 fn app_logic(data: &mut EmojiPagination) -> impl WidgetView<EmojiPagination> {

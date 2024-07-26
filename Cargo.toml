@@ -105,7 +105,7 @@ xilem_web_core = { version = "0.1.0", path = "xilem_web/xilem_web_core" }
 masonry = { version = "0.2.0", path = "masonry" }
 xilem_core = { version = "0.1.0", path = "xilem_core" }
 # We depend on this Vello revision for Emoji support (https://github.com/linebender/vello/pull/615)
-vello = { git = "https://github.com/linebender/vello/", rev = "3ee3bea02164c5a816fe6c16ef4e3a810edb7620" }
+vello = { git = "https://github.com/DJMcNab/vello/", rev = "010e16061126b3c456f66360c483c2e60ec92d28" }
 wgpu = "0.20.1"
 kurbo = "0.11.0"
 parley = "0.1.0"
