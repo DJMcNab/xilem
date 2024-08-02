@@ -126,8 +126,7 @@ fn run(event_loop: EventLoopBuilder) {
     };
 
     let app = Xilem::new(data, app_logic);
-    app.run_windowed(event_loop, "First Example".into())
-        .unwrap();
+    app.run_windowed(event_loop, "Emoji Picker".into()).unwrap();
 }
 
 struct EmojiInfo {
@@ -240,6 +239,7 @@ const EMOJI: &[EmojiInfo] = &[
     e("🙏", "person with folded hands"),
     e("🚀", "rocket"),
     e("🚁", "helicopter"),
+    e("🇨🇦", "Canadian Flag"),
 ];
 
 // The MIT License (MIT)
