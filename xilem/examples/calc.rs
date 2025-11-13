@@ -14,7 +14,7 @@ use xilem::view::{
     sized_box, text_button,
 };
 use xilem::{Color, EventLoop, EventLoopBuilder, WidgetView, WindowOptions, Xilem, palette};
-use xilem_core::{Edit, ViewArgument};
+use xilem_core::{Edit, ViewArgument, hint};
 
 #[derive(Copy, Clone)]
 enum MathOperator {
@@ -257,7 +257,8 @@ fn app_logic(data: &mut Calculator) -> impl WidgetView<Edit<Calculator>> + use<>
 pub fn centered_flex_row<State: ViewArgument, Seq: FlexSequence<State>>(
     sequence: Seq,
 ) -> Flex<Seq, State> {
-    flex_row(sequence)
+    hint!(h = State);
+    flex_row(h, sequence)
         .cross_axis_alignment(CrossAxisAlignment::Center)
         .main_axis_alignment(MainAxisAlignment::Start)
         .gap(5.px())
@@ -276,9 +277,9 @@ fn expanded_button(
     callback: impl Fn(&mut Calculator) + Send + Sync + 'static,
 ) -> impl WidgetView<Edit<Calculator>> {
     const BLUE: Color = Color::from_rgb8(0x00, 0x8d, 0xdd);
-
+    hint!(h = Edit<Calculator>);
     sized_box(
-        button(content, callback)
+        button(h, content, callback)
             .background_color(BLUE)
             .corner_radius(10.)
             .border_color(Color::TRANSPARENT)
@@ -301,9 +302,9 @@ fn operator_button(math_operator: MathOperator) -> impl WidgetView<Edit<Calculat
 /// A button which adds `digit` to the current input when pressed
 fn digit_button(digit: &'static str) -> impl WidgetView<Edit<Calculator>> {
     const GRAY: Color = Color::from_rgb8(0x3a, 0x3a, 0x3a);
-
+    hint!(h = Edit<Calculator>);
     sized_box(
-        text_button(digit, |data: &mut Calculator| {
+        text_button(h, digit, |data| {
             data.on_entered_digit(digit);
         })
         .background_color(GRAY)

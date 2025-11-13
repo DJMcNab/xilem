@@ -8,7 +8,9 @@ use masonry::core::ArcStr;
 pub use masonry::core::PointerButton;
 use masonry::widgets::{self, ButtonPress};
 
-use crate::core::{Arg, MessageCtx, Mut, View, ViewArgument, ViewMarker, ViewPathTracker};
+use crate::core::{
+    Arg, InferHint, MessageCtx, Mut, View, ViewArgument, ViewMarker, ViewPathTracker,
+};
 use crate::view::{Label, label};
 use crate::{MessageResult, Pod, ViewCtx, ViewId, WidgetView};
 
@@ -72,6 +74,7 @@ pub fn button<
     V: WidgetView<State, Action>,
     F: Fn(Arg<'_, State>) -> Action + Send + 'static,
 >(
+    h: InferHint<State, Action>,
     child: V,
     callback: F,
 ) -> Button<
@@ -81,13 +84,13 @@ pub fn button<
     V,
 > {
     Button {
+        hint: h,
         child,
         callback: move |state: Arg<'_, State>, button| match button {
             None | Some(PointerButton::Primary) => MessageResult::Action(callback(state)),
             _ => MessageResult::Nop,
         },
         disabled: false,
-        phantom: PhantomData,
     }
 }
 
@@ -97,6 +100,7 @@ pub fn button<
 /// making buttons quickly from string literals.
 /// For more advanced text styling, prefer [`button`].
 pub fn text_button<State: ViewArgument, Action>(
+    hint: InferHint<State, Action>,
     text: impl Into<ArcStr>,
     callback: impl Fn(Arg<'_, State>) -> Action + Send + Sync + 'static,
 ) -> Button<
@@ -108,7 +112,7 @@ pub fn text_button<State: ViewArgument, Action>(
     + 'static,
     Label,
 > {
-    button(label(text), callback)
+    button(hint, label(text), callback)
 }
 
 /// A button which calls `callback` when pressed with any mouse button, providing
@@ -122,6 +126,7 @@ pub fn text_button<State: ViewArgument, Action>(
 ///
 /// For more documentation and examples, see [`button`].
 pub fn button_any_pointer<State: ViewArgument, Action, V: WidgetView<State, Action>>(
+    hint: InferHint<State, Action>,
     child: V,
     callback: impl Fn(Arg<'_, State>, Option<PointerButton>) -> Action + Send + Sync + 'static,
 ) -> Button<
@@ -134,12 +139,12 @@ pub fn button_any_pointer<State: ViewArgument, Action, V: WidgetView<State, Acti
     V,
 > {
     Button {
+        hint,
         child,
         callback: move |state: Arg<'_, State>, button| {
             MessageResult::Action(callback(state, button))
         },
         disabled: false,
-        phantom: PhantomData,
     }
 }
 
@@ -151,7 +156,8 @@ pub struct Button<State, Action, F, V> {
     child: V,
     callback: F,
     disabled: bool,
-    phantom: PhantomData<fn(State) -> Action>,
+
+    hint: InferHint<State, Action>,
 }
 
 impl<State, Action, F, V> Button<State, Action, F, V> {

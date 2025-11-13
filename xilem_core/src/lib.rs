@@ -53,6 +53,7 @@ pub use anymore;
 mod element;
 mod element_splice;
 mod environment;
+mod inference_hint;
 mod message;
 mod message_context;
 mod message_proxy;
@@ -71,6 +72,7 @@ pub use self::environment::{
     Environment, EnvironmentItem, OnActionWithContext, Provides, Rebuild, Resource, Slot,
     WithContext, on_action_with_context, provides, with_context,
 };
+pub use self::inference_hint::{InferHint, hint};
 pub use self::message::{DynMessage, MessageResult, SendMessage};
 pub use self::message_context::MessageCtx;
 pub use self::message_proxy::{AsyncCtx, MessageProxy, PhantomView, ProxyError, RawProxy};

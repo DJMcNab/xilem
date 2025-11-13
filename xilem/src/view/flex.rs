@@ -10,7 +10,7 @@ pub use masonry::widgets::FlexParams;
 use masonry::widgets::{self};
 
 use crate::core::{
-    AppendVec, Arg, ElementSplice, MessageCtx, MessageResult, Mut, SuperElement, View,
+    AppendVec, Arg, ElementSplice, InferHint, MessageCtx, MessageResult, Mut, SuperElement, View,
     ViewArgument, ViewElement, ViewId, ViewMarker, ViewPathTracker, ViewSequence,
 };
 use crate::{AnyWidgetView, Pod, ViewCtx, WidgetView};
@@ -87,6 +87,7 @@ use crate::{AnyWidgetView, Pod, ViewCtx, WidgetView};
 /// }
 /// ```
 pub fn flex<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
+    h: InferHint<State, Action>,
     axis: Axis,
     sequence: Seq,
 ) -> Flex<Seq, State, Action> {
@@ -97,7 +98,7 @@ pub fn flex<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
         main_axis_alignment: MainAxisAlignment::Start,
         fill_major_axis: false,
         gap: masonry::theme::DEFAULT_GAP,
-        phantom: PhantomData,
+        hint: h,
     }
 }
 
@@ -108,9 +109,10 @@ pub fn flex<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
 /// We recommend reading that type's documentation for a detailed
 /// explanation of this component's layout model.
 pub fn flex_row<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
+    h: InferHint<State, Action>,
     sequence: Seq,
 ) -> Flex<Seq, State, Action> {
-    flex(Axis::Horizontal, sequence)
+    flex(h, Axis::Horizontal, sequence)
 }
 
 /// A layout where the children are laid out in a column.
@@ -120,9 +122,10 @@ pub fn flex_row<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
 /// We recommend reading that type's documentation for a detailed
 /// explanation of this component's layout model.
 pub fn flex_col<State: ViewArgument, Action, Seq: FlexSequence<State, Action>>(
+    h: InferHint<State, Action>,
     sequence: Seq,
 ) -> Flex<Seq, State, Action> {
-    flex(Axis::Vertical, sequence)
+    flex(h, Axis::Vertical, sequence)
 }
 
 /// The [`View`] created by [`flex`] from a sequence.
@@ -136,7 +139,7 @@ pub struct Flex<Seq, State, Action = ()> {
     main_axis_alignment: MainAxisAlignment,
     fill_major_axis: bool,
     gap: Length,
-    phantom: PhantomData<fn() -> (State, Action)>,
+    hint: InferHint<State, Action>,
 }
 
 impl<Seq, State, Action> Flex<Seq, State, Action> {

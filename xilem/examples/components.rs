@@ -4,10 +4,9 @@
 //! Modularizing state can be done with `lens` which allows using modular components.
 
 use winit::error::EventLoopError;
-use xilem::core::lens;
+use xilem::core::{Edit, hint, lens};
 use xilem::view::{MainAxisAlignment, flex_col, flex_row, label, text_button};
 use xilem::{EventLoop, WidgetView, WindowOptions, Xilem};
-use xilem_core::Edit;
 
 #[derive(Default)]
 struct AppState {
@@ -16,11 +15,15 @@ struct AppState {
 }
 
 fn modular_counter(count: &mut i32) -> impl WidgetView<Edit<i32>> + use<> {
-    flex_col((
-        label(format!("modularized count: {count}")),
-        text_button("+", |count: &mut i32| *count += 1),
-        text_button("-", |count: &mut i32| *count -= 1),
-    ))
+    hint!(h = Edit<i32>);
+    flex_col(
+        h,
+        (
+            label(format!("modularized count: {count}")),
+            text_button("+", |count: &mut i32| *count += 1),
+            text_button("-", |count: &mut i32| *count -= 1),
+        ),
+    )
 }
 
 fn app_logic(state: &mut AppState) -> impl WidgetView<Edit<AppState>> + use<> {
